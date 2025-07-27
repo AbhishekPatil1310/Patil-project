@@ -23,7 +23,8 @@ function buildApp() {
     'http://localhost:5174',
     'http://localhost:5175',
     'https://patil-project-axrt-ro2vdwned-abhisheks-projects-680a2fd9.vercel.app',
-    'https://patil-project-axrt.vercel.app'
+    'https://patil-project-axrt.vercel.app',
+      'https://patil-project-d2yizmdek-abhisheks-projects-680a2fd9.vercel.app' // ✅ your actual frontend
   ].filter(Boolean); // remove null/undefined
 
   // Register fastify-cors
