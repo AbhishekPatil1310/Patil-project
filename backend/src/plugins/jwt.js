@@ -21,7 +21,7 @@ function setAuthCookies(reply, accessToken, refreshToken) {
   httpOnly: true,
   sameSite: 'none',   // <- important for cross-site
   secure: true,       // <- must be true for SameSite: 'none'
-  path: '/api/v1/auth',
+  path: '/api/v1',
   maxAge: seconds(env.JWT_REFRESH_EXPIRES_IN),
 });
 
