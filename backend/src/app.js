@@ -23,7 +23,7 @@ function buildApp() {
     'http://localhost:5174',
     'http://localhost:5175',
     'https://patil-project-68f7hoxg4-abhisheks-projects-680a2fd9.vercel.app',
-    'https://patil-project-axrt.vercel.app',
+    'https://advestor-frontend.vercel.app',
       'https://patil-project.vercel.app' // ✅ your actual frontend
   ].filter(Boolean); // remove null/undefined
 
