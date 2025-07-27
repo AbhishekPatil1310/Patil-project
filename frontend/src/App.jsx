@@ -14,12 +14,19 @@ import AdvertiserDashboard from './pages/AdvertiserDashboard';
 import History from './pages/Histry';
 import ContactForm from './components/Contact';
 import EditProfile from './components/EditProfile';
+import UserProfile from './components/UserProfile';
+import AdminUserList from './components/AllUsers';
+import UserSearch from './components/searchUserByEmail';
+import UserWallet from './components/wallet';
+import GlobalCreditWatcher from './components/creditPractice';
 
 /* empty stubs – replace later */
 const Empty = () => <div />;
 
 export default function App() {
   return (
+    <>
+     <GlobalCreditWatcher/>
     <Routes>
       {/* -------- PUBLIC -------- */}
       <Route element={<PublicLayout />}>
@@ -55,6 +62,9 @@ export default function App() {
         <Route path="upload" element={<ProtectedRoute>
           <UploadAd />
         </ProtectedRoute>} />
+        <Route path="wallet" element={<ProtectedRoute>
+          <UserWallet />
+        </ProtectedRoute>} />
         <Route path="my-ads" element={<ProtectedRoute>
           <AdvertiserDashboard />
         </ProtectedRoute>} />
@@ -73,14 +83,32 @@ export default function App() {
         <Route path="contact" element={<ProtectedRoute>
           <ContactForm />
         </ProtectedRoute>} />
+        
       </Route>
       <Route path='/edit-profile' element={<ProtectedRoute>
         <EditProfile />
       </ProtectedRoute>} />
+      <Route path='/profile' element={<ProtectedRoute>
+        <UserProfile />
+      </ProtectedRoute>} />
+
+      <Route path='/dashboard/users/search' element={<ProtectedRoute>
+        <UserSearch />
+      </ProtectedRoute>} />
+<Route
+  path="/dashboard/users/AllUsers"
+  element={
+    <ProtectedRoute>
+      <AdminUserList />
+    </ProtectedRoute>
+  }
+/>
+
 
       {/* -------- FALLBACKS -------- */}
       <Route path="/unauthorized" element={<Unauthorized />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
-  );
+</>
+     );
 }

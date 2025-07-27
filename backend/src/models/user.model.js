@@ -35,29 +35,39 @@ const userSchema = new Schema(
     },
     interests: {
       type: [String],
-      enum: ['sports', 'music', 'movies', 'travel', 'gaming', 'reading', 'cooking', 'art', 'technology'], 
+      enum: ['sports', 'music', 'movies', 'travel', 'gaming', 'reading', 'cooking', 'art', 'technology'],
       default: [],
     },
     time: {
-      type: String,
+      type: [String],
       enum: ['morning', 'afternoon', 'evening', 'night'],
-      default: 'morning',
+      default: [],
     },
     role: {
       type: String,
       enum: ['user', 'advertiser', 'admin'],
       default: 'user',
     },
+    ban: {
+      isBanned: { type: Boolean, default: false },
+      bannedUntil: { type: Date, default: null }
+    },
+    credit:{
+      type: Number,
+      default: 0,
+      min: 0, // Ensure credit cannot be negative
+    }
+
   },
   { timestamps: true }
 );
 
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
-  
+
   // Skip password hashing for Google OAuth users (they have a placeholder password)
   if (this.password === 'google-oauth-user') return next();
-  
+
   const salt = await bcrypt.genSalt(12);
   this.password = await bcrypt.hash(this.password, salt);
   next();
