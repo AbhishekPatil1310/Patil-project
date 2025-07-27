@@ -22,7 +22,7 @@ function setAuthCookies(reply, accessToken, refreshToken) {
       httpOnly: true,
       sameSite: isProd ? 'none' : 'lax',
       secure: isProd,
-      path: '/api/v1/auth', // ✅ match with controller logout()
+      path: '/api/v1', // ✅ match with controller logout()
       maxAge: seconds(env.JWT_REFRESH_EXPIRES_IN),
     });
 }
