@@ -27,7 +27,7 @@ function setAuthCookies(reply, accessToken, refreshToken) {
       httpOnly: true,
       sameSite: isProd ? 'none' : 'lax',
       secure: isProd,
-      path: '/api/v1', // ✅ corrected path
+      path: '/', // ✅ corrected path
       maxAge: refreshMaxAge,
     });
 }
