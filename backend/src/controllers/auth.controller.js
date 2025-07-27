@@ -17,14 +17,14 @@ function setAuthCookies(reply, accessToken, refreshToken) {
   reply
     .setCookie('accessToken', accessToken, {
       httpOnly: true,
-      sameSite: 'lax',
+      sameSite: 'none',
       secure: env.NODE_ENV === 'production',
       path: '/',
       maxAge: accessMaxAge,
     })
     .setCookie('refreshToken', refreshToken, {
       httpOnly: true,
-      sameSite: 'lax',
+      sameSite: 'none',
       secure: env.NODE_ENV === 'production',
       path: 'api/v1/auth',
       maxAge: refreshMaxAge,
