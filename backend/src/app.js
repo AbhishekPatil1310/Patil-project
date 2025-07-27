@@ -24,7 +24,7 @@ const allowedOrigins = [
   'http://localhost:5174',
   'http://localhost:5175',
   'http://patil-project-axrt-ev3rpyvzm-abhisheks-projects-680a2fd9.vercel.app',
-  'https://patil-project-axrt.vercel.app/'
+  'https://patil-project-axrt.vercel.app'
 ].filter(Boolean); // remove undefined/null
 
 app.register(fastifyCors, {
