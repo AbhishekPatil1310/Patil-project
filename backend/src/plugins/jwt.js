@@ -10,20 +10,21 @@ const {
 
 function setAuthCookies(reply, accessToken, refreshToken) {
   reply
-    .setCookie('accessToken', accessToken, {
-      httpOnly: true,
-      sameSite: 'lax',
-      secure: env.NODE_ENV === 'production',
-      path: '/', // cover every route
-      maxAge: seconds(env.JWT_ACCESS_EXPIRES_IN),
-    })
-    .setCookie('refreshToken', refreshToken, {
-      httpOnly: true,
-      sameSite: 'lax', // 'none' if FE/BE cross‑site
-      secure: env.NODE_ENV === 'production',
-      path: '/api/v1/auth',
-      maxAge: seconds(env.JWT_REFRESH_EXPIRES_IN),
-    });
+.setCookie('accessToken', accessToken, {
+  httpOnly: true,
+  sameSite: 'none',   // <- important for cross-site
+  secure: true,       // <- must be true for SameSite: 'none'
+  path: '/',
+  maxAge: seconds(env.JWT_ACCESS_EXPIRES_IN),
+})
+.setCookie('refreshToken', refreshToken, {
+  httpOnly: true,
+  sameSite: 'none',   // <- important for cross-site
+  secure: true,       // <- must be true for SameSite: 'none'
+  path: '/api/v1/auth',
+  maxAge: seconds(env.JWT_REFRESH_EXPIRES_IN),
+});
+
 }
 
 async function jwtPlugin(fastify) {
