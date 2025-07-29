@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon --legacy-watch server.js",
+    "dev": "nodemon server.js",
     "start": "node server.js",
     "lint": "eslint . --ext .js",
     "format": "prettier --write \"src/**/*.js\""
@@ -29,7 +29,8 @@
     "fastify-sensible": "^3.1.2",
     "mongoose": "^8.16.1",
     "nodemailer": "^7.0.5",
-    "uuid4": "^2.0.3"
+    "uuid4": "^2.0.3",
+    "nodemon": "^3.1.10",
   },
   "devDependencies": {
     "eslint": "^9.30.0",
