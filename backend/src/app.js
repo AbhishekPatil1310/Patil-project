@@ -24,7 +24,8 @@ function buildApp() {
     'http://localhost:5175',
     'https://patil-project-68f7hoxg4-abhisheks-projects-680a2fd9.vercel.app',
     'https://advestor-frontend.vercel.app',
-      'https://patil-project.vercel.app' // ✅ your actual frontend
+      'https://patil-project.vercel.app',
+    'https://advestor-frontend.vercel.app// ✅ your actual frontend
   ].filter(Boolean); // remove null/undefined
 
   // Register fastify-cors
