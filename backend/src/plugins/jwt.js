@@ -6,7 +6,7 @@ const {
   revokeRefreshToken,
   seconds,
 } = require('../utils/token.util');
-
+// for fastify.authentication
 function setAuthCookies(reply, accessToken, refreshToken) {
   const isProd = env.NODE_ENV === 'production';
 
