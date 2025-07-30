@@ -35,6 +35,11 @@ export async function addCredit(userId,amount) {
     withCredentials: true,
   });
 }
+export async function adForAdmin(id) {
+  return axios.get(`${import.meta.env.VITE_API_URL}/admin/ads/${id}`, {
+    withCredentials: true,
+  });
+}
 
 export const fetchAdminAnalytics = async () => {
   const response = await axios.get(`${import.meta.env.VITE_API_URL}/admin/ads/analytics`, {
@@ -42,3 +47,9 @@ export const fetchAdminAnalytics = async () => {
   });
   return response.data;
 };
+export async function deleteAdById(adId) {
+  return axios.delete(`${import.meta.env.VITE_API_URL}/admin/ads/${adId}`, {
+    withCredentials: true,
+  });
+}
+
