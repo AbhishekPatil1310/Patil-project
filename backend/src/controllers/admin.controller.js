@@ -196,7 +196,51 @@ async function addCredit(req, reply) {
   }
 }
 
+async function getAds(req, reply) {
+  try {
+    const { id } = req.params;
+    console.log('Fetching ads for advertiser ID:', id);
+
+    if (!id) {
+      return reply.badRequest('Missing advertiser ID');
+    }
+
+    const ads = await AD.find({ advertiserId: id })
+      .populate('advertiserId', 'name email');
+
+    return reply.send({ ads });
+  } catch (err) {
+    req.log.error(err, '[getAds] failed to fetch ads');
+    return reply.internalServerError('Failed to fetch ads');
+  }
+}
+
+
+// Delete an ad by ID
+async function deleteAd(req, reply) {
+  try {
+    const { id } = req.params;
+    console.log('Deleting ad with ID:', id);
+
+    if (!id) {
+      return reply.badRequest('Missing ad ID');
+    }
+
+    const deleted = await AD.findByIdAndDelete(id);
+
+    if (!deleted) {
+      return reply.notFound('Ad not found');
+    }
+
+    return reply.send({ success: true, message: 'Ad deleted successfully' });
+  } catch (err) {
+    req.log.error(err, '[deleteAd] Failed to delete ad');
+    return reply.internalServerError('Failed to delete ad');
+  }
+}
 
 
 
-module.exports = { getAllUser, getUserBymail, updateUser, deleteUser, banUser, sendMailToUser,addCredit,getAllAdsAnalytics };
+
+
+module.exports = { getAllUser, getUserBymail, updateUser, deleteUser, banUser, sendMailToUser,addCredit,getAllAdsAnalytics,getAds,deleteAd };
