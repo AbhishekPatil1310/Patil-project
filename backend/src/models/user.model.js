@@ -84,6 +84,19 @@ const userSchema = new Schema(
       default: 0,
       min: 0, // Ensure credit cannot be negative
     },
+    totalSpent: {
+      type: Number,
+      rewuired: true,
+      default: 0
+    },
+    monthlySpent: {
+      type: Number,
+      default: 0
+    },
+    lastSpentReset: {
+      type: Date,
+      default: Date.now
+    },
     diaryEntries: [diaryEntrySchema],
 
   },
