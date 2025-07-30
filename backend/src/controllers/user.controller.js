@@ -33,16 +33,30 @@ async function getAdsForUserHandler(req, reply) {
   try {
     const { id: userId } = req.params;
 
-    const user = await User.findById(userId).select('age');
+    // Fetch user with age and interests
+    const user = await User.findById(userId).select('age interests');
     if (!user || typeof user.age !== 'number') {
       return reply.notFound('User not found or age not set');
     }
 
-    const ads = await Ad.find({
+    // Check if interests exist and are non-empty
+    const hasInterests = Array.isArray(user.interests) && user.interests.length > 0;
+
+    // Build age filter (ads where user.age is within targetAgeGroup)
+    const baseQuery = {
       'targetAgeGroup.min': { $lte: user.age },
       'targetAgeGroup.max': { $gte: user.age },
-        'feedbacks.userId': { $ne: user._id },
-    });
+      // Exclude ads already given feedback by user
+      'feedbacks.userId': { $ne: user._id },
+    };
+
+    // If user has interests, add filter for adType in interests
+    if (hasInterests) {
+      baseQuery.adType = { $in: user.interests };
+    }
+
+    // Fetch ads matching filters
+    const ads = await Ad.find(baseQuery);
 
     return reply.send({ ads });
   } catch (err) {
@@ -180,7 +194,7 @@ async function getUserProfile(req, reply) {
     const userId = req.user?.sub;
     if (!userId) return reply.unauthorized('User not authenticated');
 
-    const user = await User.findById(userId).select('name email interests time credit age role');
+    const user = await User.findById(userId).select('name email interests time credit age role monthlySpent totalSpent');
 
     if (!user) return reply.notFound('User not found');
 
@@ -192,6 +206,8 @@ async function getUserProfile(req, reply) {
       credit: user.credit || 0,
       role: user.role || 'user',
       age: user.age || null,
+      monthlySpent: user.monthlySpent || 0,
+      totalSpent: user.totalSpent || 0,
     });
   } catch (err) {
     req.log.error(err, '[getUserProfile] Error');

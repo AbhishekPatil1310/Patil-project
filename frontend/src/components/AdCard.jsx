@@ -16,7 +16,6 @@ export default function AdCard({ ad, userId }) {
     <div className="relative p-[2px] rounded-xl bg-gradient-to-tr from-purple-400 via-pink-500 to-yellow-500 shadow-lg group hover:scale-[1.02] transition-transform duration-300">
       <div className="bg-white rounded-xl p-6">
         <h2 className="text-xl font-bold text-gray-800 mb-2">{ad.description}</h2>
-        <p className="text-sm text-gray-500 mb-2">Feedbacks: {ad.feedbacks.length}</p>
 
         <ul className="space-y-2 mt-3">
           {ad.feedbacks
