@@ -7,6 +7,8 @@ export default function UserWallet() {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
   const credit = user?.credit || 0; // Default to 0 if user or credit is not available
+  const totalSpent = user?.totalSpent || 0; // Default to 0 if not available
+  const monthlySpent = user?.monthlySpent || 0; // Default to 0 if not available
   useEffect(() => {
     const getUser = async () => {
       const data = await fetchUserProfile();
@@ -34,13 +36,13 @@ export default function UserWallet() {
         <div className="p-4 border rounded-lg bg-gray-50 text-center">
           <Activity className="w-5 h-5 mx-auto text-blue-600 mb-1" />
           <p className="text-sm text-gray-600">Spent This Month</p>
-          <p className="text-lg font-medium text-blue-700">₹0</p>
+          <p className="text-lg font-medium text-blue-700">₹{monthlySpent}</p>
         </div>
 
         <div className="p-4 border rounded-lg bg-gray-50 text-center">
           <BarChart className="w-5 h-5 mx-auto text-purple-600 mb-1" />
           <p className="text-sm text-gray-600">Total Spent</p>
-          <p className="text-lg font-medium text-purple-700">₹0</p>
+          <p className="text-lg font-medium text-purple-700">₹{totalSpent}</p>
         </div>
       </div>
 

@@ -1,19 +1,18 @@
-// src/components/GlobalCreditWatcher.jsx
 import { useEffect, useRef } from 'react';
 import { fetchMyAds, updateCredit } from '../api/addApi';
 import { fetchUserProfile } from '../api/getProfile';
 
 export default function GlobalCreditWatcher({ pollingInterval = 5000 }) {
-  const prevViewsRef = useRef(null); // Used to store previous total views
-  const creditRef = useRef(0);       // Used to track credit updates
-  const userRef = useRef(null);      // Store user details after first fetch
+  const prevViewsRef = useRef(null); // Track previous total views
+  const creditRef = useRef(0);       // Local credit snapshot
+  const userRef = useRef(null);      // Cached user info
 
   useEffect(() => {
     let intervalId;
 
     const fetchAndUpdate = async () => {
       try {
-        // Fetch and store user only once
+        // Fetch user details once
         if (!userRef.current) {
           const user = await fetchUserProfile();
           if (!user || user.role !== 'advertiser') return;
@@ -22,27 +21,29 @@ export default function GlobalCreditWatcher({ pollingInterval = 5000 }) {
           creditRef.current = user.credit || 0;
         }
 
-        // Fetch all ads
+        // Fetch current ads and compute total views
         const ads = await fetchMyAds();
         const totalViews = ads.reduce((sum, ad) => sum + (ad.views || 0), 0);
 
-        // If this is the first view count recorded, store and skip
+        // First run, just store the view count
         if (prevViewsRef.current === null) {
           prevViewsRef.current = totalViews;
           return;
         }
 
-        // Calculate view difference
+        // Determine new views since last check
         const newViews = totalViews - prevViewsRef.current;
 
         if (newViews > 0) {
           const cost = newViews * 0.5;
-          const updatedCredit = Math.max(0, creditRef.current - cost);
 
-          await updateCredit(updatedCredit);
+          const res = await updateCredit(creditRef.current - cost); // Pass updated credit
 
-          // Update refs
-          creditRef.current = updatedCredit;
+          // Update refs from server response
+          creditRef.current = res.credit;
+          userRef.current.totalSpent = res.totalSpent;
+          userRef.current.monthlySpent = res.monthlySpent;
+
           prevViewsRef.current = totalViews;
         }
       } catch (err) {
@@ -50,11 +51,11 @@ export default function GlobalCreditWatcher({ pollingInterval = 5000 }) {
       }
     };
 
-    fetchAndUpdate(); // Initial fetch
-    intervalId = setInterval(fetchAndUpdate, pollingInterval);
+    fetchAndUpdate(); // Run immediately
+    intervalId = setInterval(fetchAndUpdate, pollingInterval); // Polling
 
     return () => clearInterval(intervalId); // Cleanup
   }, [pollingInterval]);
 
-  return null; // No UI needed
+  return null; // No UI
 }
