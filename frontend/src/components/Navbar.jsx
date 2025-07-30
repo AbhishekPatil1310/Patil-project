@@ -15,9 +15,11 @@ export default function Navbar() {
     <nav className="fixed inset-x-0 top-0 z-50 bg-white/80 backdrop-blur shadow">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
         {/* Brand */}
-        <Link to="/" className="text-2xl font-bold text-indigo-600">
+        <Link to="/" className="flex items-center gap-2 text-2xl font-bold text-indigo-600">
+          <img src="/AdVestors.svg" alt="Logo" className="w-6 h-6" />
           Advestore
         </Link>
+
 
         {/* Left‑side anchors */}
         <ul className="flex space-x-4">
@@ -26,11 +28,10 @@ export default function Navbar() {
               <a
                 href={`#${id}`}
                 onClick={handleAnchorClick(id)}
-                className={`rounded px-3 py-1 text-sm font-medium transition-colors ${
-                  activeId === id
+                className={`rounded px-3 py-1 text-sm font-medium transition-colors ${activeId === id
                     ? 'bg-indigo-50 text-indigo-600'
                     : 'text-gray-700 hover:text-indigo-600'
-                }`}
+                  }`}
               >
                 {label}
               </a>
