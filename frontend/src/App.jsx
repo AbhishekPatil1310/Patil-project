@@ -19,6 +19,7 @@ import AdminUserList from './components/AllUsers';
 import UserSearch from './components/searchUserByEmail';
 import UserWallet from './components/wallet';
 import GlobalCreditWatcher from './components/creditPractice';
+import AffiliateGallery from './components/AffiliatMarket';
 
 
 /* empty stubs – replace later */
@@ -77,6 +78,11 @@ export default function App() {
           <Route path="history" element={
             <ProtectedRoute>
               <History />
+            </ProtectedRoute>
+          } />
+          <Route path="Affiliate" element={
+            <ProtectedRoute>
+              <AffiliateGallery />
             </ProtectedRoute>
           } />
           {/* Add more dashboard routes as needed */}

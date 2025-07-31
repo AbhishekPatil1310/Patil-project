@@ -22,8 +22,8 @@ export default function UploadAd() {
   const [credits, setCredits] = useState(null);
   const [loading, setLoading] = useState(true);
   const [checkingModeration, setCheckingModeration] = useState(false);
+  const [submitting, setSubmitting] = useState(false); // ✅ New state
 
-  // Fetch credits
   const fetchCredits = async () => {
     try {
       const profile = await fetchUserProfile();
@@ -37,7 +37,6 @@ export default function UploadAd() {
     }
   };
 
-  // Initial credit fetch
   useEffect(() => {
     const init = async () => {
       if (user?.role === 'advertiser') {
@@ -50,7 +49,6 @@ export default function UploadAd() {
     init();
   }, [user]);
 
-  // Optional: Refresh credits every 5s
   useEffect(() => {
     if (user?.role === 'advertiser') {
       const intervalId = setInterval(fetchCredits, 5000);
@@ -58,7 +56,6 @@ export default function UploadAd() {
     }
   }, [user]);
 
-  // Set advertiser ID
   useEffect(() => {
     if (user?.role === 'advertiser' && user.email) {
       setForm((prev) => ({ ...prev, advertiserId: user.email }));
@@ -115,12 +112,15 @@ export default function UploadAd() {
     }
 
     try {
+      setSubmitting(true); // ✅ Start uploading
       const data = await uploadAd(form);
       alert('Ad Uploaded ✅');
       console.log(data);
     } catch (err) {
       console.error('Upload Error:', err.response?.data || err.message);
       alert('Upload failed ❌');
+    } finally {
+      setSubmitting(false); // ✅ Done uploading
     }
   };
 
@@ -222,10 +222,10 @@ export default function UploadAd() {
 
         <button
           type="submit"
-          disabled={checkingModeration}
-          className="w-full py-3 text-white bg-green-600 hover:bg-green-700 rounded-lg font-medium transition-all"
+          disabled={checkingModeration || submitting}
+          className="w-full py-3 text-white bg-green-600 hover:bg-green-700 rounded-lg font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Upload Ad
+          {submitting ? 'Uploading...' : 'Upload Ad'}
         </button>
       </form>
     </div>

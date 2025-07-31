@@ -32,6 +32,7 @@ export default function Sidebar({ open, setOpen }) {
       { path: '/dashboard/wallet', label: 'Wallet' },
       { path: '/dashboard/history', label: 'History' },
       { path: '/dashboard/contact', label: 'Contact' },
+      { path: '/dashboard/Affiliate', label: 'Shope me' },
     ];
   }
 
